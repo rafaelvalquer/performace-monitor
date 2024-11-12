@@ -8,7 +8,7 @@ const logFilePath = path.join(__dirname, "..", "logs", "performance_logs.txt");
 
 // Função para salvar logs no arquivo
 function logToFile(data) {
-  const logEntry = `${new Date().toISOString()} - Method: ${data.method}, Response Time: ${data.responseTime}ms, URL: ${data.url}\n`;
+  const logEntry = `${new Date().toISOString()} - Method: ${data.method}, Response Time: ${data.responseTime}ms, URL: ${data.url}, Status Code: ${data.statusCode} \n`;
   fs.appendFile(logFilePath, logEntry, (err) => {
     if (err) {
       console.error("Failed to write log:", err);
@@ -28,7 +28,7 @@ io.on("connection", (socket) => {
 
   // Recebe dados de tempo de resposta via socket da aplicação principal
   socket.on("updateGraph", (data) => {
-    const { method, responseTime, url } = data;
+    const { method, responseTime, url, statusCode } = data;
 
     // Salva o log com os dados recebidos
     logToFile(data);
